@@ -1,0 +1,24 @@
+.container {
+    // max-width: 1280px;
+    min-height: 480px;
+    margin: 0 auto;
+    clear: both;
+}
+
+
+.bg-image {
+    background-image: url('../../../../../assets/images/background.jpg');
+    background-color: #cccccc; /* Used if the image is unavailable */
+    height: 800px; /* You must set a specified height */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+    // opacity: 0.5;
+    
+
+  }
+
+:host ::ng-deep app-footer footer {
+    box-shadow: 0 0 12px 0 rgb(0 0 0 / 5%);
+  
+  }

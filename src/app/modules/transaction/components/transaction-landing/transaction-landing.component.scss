@@ -1,0 +1,9 @@
+.trans-container {
+    display:flex;
+    &__transfer {
+        width: 40%;
+    }
+    &__list {
+        width:40%;
+    }
+}

@@ -1,0 +1,14 @@
+<div>
+    <h1>Review Transfer</h1>
+    <div>
+        <h2>Are you ready to send out this transfer?</h2>
+        <div>It will be sent to account:</div>
+        <div>{{ transaction?.merchant?.accountNumber}}</div>
+        <div>With the amount of:</div>
+        <div>{{ transaction?.transaction?.amountCurrency?.amount}}</div>
+        <div>
+            <input type="button" (click)="closePopup(false)" value="Cancel"/>
+            <input type="button" (click)="closePopup(true)" value="send Transfer"/>
+        </div>
+    </div>
+</div>

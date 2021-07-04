@@ -1,0 +1,58 @@
+
+
+.transaction-list {
+    min-height: 500px;
+    background-color: #ffff;
+    margin: 50px 0;
+    border-radius: 20px;
+    overflow: hidden;
+   
+    &__content {
+        padding-left: 20px;
+        margin-top: 60px;
+        
+    }
+
+    &__content-filter {
+        margin-left:15px;
+        margin-bottom: 20px;
+    }
+    
+    &__heading {
+        margin-top: 0;
+        background-color: #00bfff;
+        color: white;
+        padding: 15px 0;
+        
+    }
+    &__heading-icon {
+        padding: 0 15px;
+        font-size: 25px;
+        vertical-align: middle;
+        // position: absolute;
+        // right: 0;
+        // top: 0;
+    }
+    &__heading-text {
+        font-size: 16px;
+    }
+    &__content-trans-color {
+        width: 4px;
+        height: 40px;
+    }
+}
+
+table {
+    width: 100%;
+  }
+
+.bold {
+      font-weight: bold
+ }
+  
+.mat-cell .mat-header {
+    width: 40%;
+}
+:host ::ng-deep mat-icon .mat-icon .material-icons .mat-icon-no-color {
+    font-size: 30px;
+  }

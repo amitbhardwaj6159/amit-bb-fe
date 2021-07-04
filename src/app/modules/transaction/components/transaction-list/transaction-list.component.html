@@ -1,0 +1,60 @@
+
+<div class="transaction-list">
+
+<h1 class="transaction-list__heading">
+    <span class="transaction-list__heading-icon"><mat-icon aria-hidden="false" aria-label="Transaction list icon">format_list_bulleted</mat-icon></span>
+    <span class="transaction-list__heading-text">Transaction List</span>
+</h1>
+
+<div class="transaction-list__content">
+        <div class="transaction-list__content-filter">
+            <app-filter (inputChange)="filterTransactionList($event)"></app-filter>
+        </div>
+        <table #transactionTable mat-table [dataSource]="transactionList" class="mat-elevation-z8">
+            <app-transaction-item>
+
+                <!-- Transaction color -->
+                <ng-container matColumnDef="transactionColor" data-test-hook='transactionColor'>
+                        <td mat-cell *matCellDef="let row"> 
+                            <div [ngStyle]="{ 'background-color' : row?.categoryCode}" class="transaction-list__content-trans-color"></div>
+                        </td>
+                </ng-container>
+
+                <!-- Date Column -->
+                <ng-container matColumnDef="date" data-test-hook='transactionDate'>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row?.dates?.valueDate |  date :'MMM. yy'}}
+                    </td>
+                </ng-container>
+            
+                <!-- Merchant Column -->
+                <ng-container matColumnDef="merchant" >
+                    <td mat-cell *matCellDef="let row">
+                        <div class="bold" data-test-hook='transactionMerchantName'>
+                            {{ row?.merchant?.name }}
+                        </div>
+                        <div data-test-hook='transactionType'>
+                            {{ row?.transaction?.type }}
+                        </div>
+                    </td>
+                </ng-container>
+            
+                <!-- Amount Column -->
+                <ng-container matColumnDef="amount" data-test-hook='transactionAmount'>
+                    <td mat-cell *matCellDef="let row"> 
+                            {{ row?.transaction?.amountCurrency?.amount | currency : row?.transaction?.amountCurrency?.currencyCode : "symbol"}}
+                            
+                    </td>
+                </ng-container>
+            </app-transaction-item>
+            
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+
+
+
+
+</div>
+
+</div>
