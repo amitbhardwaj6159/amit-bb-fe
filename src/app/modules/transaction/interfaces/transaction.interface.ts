@@ -33,3 +33,7 @@ export interface ISubmitTransactionPayload {
     amount: number;
     transferFrom?: string;
 }
+
+export interface ILabels {
+    [key: string]: string;
+}

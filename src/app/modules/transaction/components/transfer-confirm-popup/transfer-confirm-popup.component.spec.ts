@@ -2,8 +2,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TransferConfirmPopupComponent } from './transfer-confirm-popup.component';
 import { of } from 'rxjs';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ITransaction } from '../../interfaces/transaction.interface';
+import { Component } from '@angular/core';
 
-
+@Component({
+  selector: 'mat-icon',
+  template: '<div></div>'
+})
+class MockMatIconComponent {}
 
 describe('TransferConfirmPopupComponent', () => {
   let component: TransferConfirmPopupComponent;
@@ -14,33 +20,34 @@ describe('TransferConfirmPopupComponent', () => {
     afterClosed: () => of(true)
   };
 
-  const mockDialogData = {
-    data: {
-      categoryCode: '#12a580',
-      dates: {
-        valueDate: 123
+  const transaction: ITransaction =  {
+    categoryCode: '#12a580',
+    dates: {
+      valueDate: 123
+    },
+    transaction: {
+      amountCurrency: {
+        amount: 500,
+        currencyCode: 'EUR'
       },
-      transaction: {
-        amountCurrency: {
-          amount: 500,
-          currencyCode: "EUR"
-        },
-        type: "Salaries",
-        creditDebitIndicator: "DBIT"
-      },
-      merchant: {
-        name: 'backbase',
-        accountNumber: '13222',
-      }
+      type: 'Salaries',
+      creditDebitIndicator: 'DBIT'
+    },
+    merchant: {
+      name: 'backbase',
+      accountNumber: '13222',
     }
+  };
+  const mockDialogData = {
+    data: transaction
   };
 
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TransferConfirmPopupComponent],
+      declarations: [TransferConfirmPopupComponent, MockMatIconComponent],
       providers: [
-        { provide: MAT_DIALOG_DATA, useValue: mockDialogData },
+        { provide: MAT_DIALOG_DATA, useValue: transaction },
 
         {
           provide: MatDialogRef,
@@ -62,7 +69,7 @@ describe('TransferConfirmPopupComponent', () => {
   });
 
   it('ngOnit should initialize transaction', () => {
-    expect(component.transaction).toEqual(mockDialogData.data);
+    expect(component.transaction).toEqual(transaction);
   });
 
   it('closePopup should close the popup with confirmation as yes', () => {

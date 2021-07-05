@@ -1,43 +1,42 @@
-<div class="transaction-list-container">
-        <h1>Make Transfer</h1>
-        <div [formGroup]="transferForm">
+<div class="transfer-section">
+        <h1 class="section__heading">
+                <mat-icon class="section__heading__icon" aria-hidden="false" aria-label="Transaction list icon">credit_card</mat-icon>
+                <span class="section__heading__text">{{ labels?.makeTransfer }}</span>
+        </h1>
+        <div class="transfer-section__container" [formGroup]="transferForm">
                 <div class="row">
-                        <div>
+                        <div class="custom-label">
                                 <label>{{ labels?.fromAccount }}</label>
                         </div>
                         <div>
-                                <input type="text" formControlName="transferFrom" size="30">
+                                <input type="text" formControlName="transferFrom" size="30" class="custom-input" [attr.aria-label]="'transferFrom'" />
                         </div>
-
                 </div>
                 <div class="row">
-                        <div>
+                        <div class="custom-label">
                                 <label>{{ labels?.toAccount }}</label>
                         </div>
                         <div>
-                                <input type="text" formControlName="transferTo" placeholder="type an account name">
+                                <input type="text" formControlName="transferTo" placeholder="type an account name" class="custom-input italic" />
                         </div>
-                        <mat-error *ngIf="checkRequiredFieldValidation('transferTo')">{{labels?.transferToRequired}} </mat-error>
-                        
-
+                        <mat-error *ngIf="checkRequiredFieldValidation('transferTo')">{{ labels?.requiredFieldMsg }}</mat-error>
                 </div>
                 <div class="row">
-                        <div>
+                        <div class="custom-label">
                                 <label>{{ labels?.amount }}</label>
                         </div>
-                        <div>
-                                <input type="text" formControlName="amount" min="0.01" placeholder="specify the amount">
+                        <div class="input-container">
+                                <mat-icon class="currency-icon" aria-hidden="false" aria-label="Transaction list icon">euro</mat-icon>
+                                <input type="text" formControlName="amount" placeholder="specify the amount" class="custom-input italic" />
                         </div>
-                        <mat-error *ngIf="checkRequiredFieldValidation('amount')">{{labels?.amountRequired}} </mat-error>
-                        <mat-error *ngIf="checkMinimumAmountValidation('amount') && !checkPatternValidation('amount')">{{ labels?.minimumAmountMsg }} </mat-error>
-                        <mat-error *ngIf="checkMaximumAmountValidation('amount') && !checkPatternValidation('amount')">{{ labels?.noEnoughBalance }} </mat-error>
-                        <mat-error *ngIf="checkPatternValidation('amount')">{{ labels?.invalidValue }} </mat-error>
-
+                        <mat-error *ngIf="checkRequiredFieldValidation('amount')">{{ labels?.requiredFieldMsg }}
+                        </mat-error>
+                        <mat-error *ngIf="checkMinimumBalanceValidation('amount') && !checkRequiredFieldValidation('amount') && !checkPatternValidation('amount')">{{ labels?.minimumBalanceError }}
+                        </mat-error>
+                        <mat-error *ngIf="checkPatternValidation('amount')">{{ labels?.invalidValue }}</mat-error>
                 </div>
-                <div class="row">
+                <div class="row btn-row">
                         <app-submit-button (submitForm)="submitForm()"></app-submit-button>
                 </div>
-
         </div>
-
 </div>

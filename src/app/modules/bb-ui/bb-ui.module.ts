@@ -5,6 +5,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { LogoComponent } from './components/logo/logo.component';
 import { SubmitButtonComponent } from './components/submit-button/submit-button.component';
 import { TransactionItemComponent } from './components/transaction-item/transaction-item.component';
+import { MatIconModule } from '@angular/material/icon';
 
 const COMPONENTS = [
   FooterComponent,
@@ -15,7 +16,8 @@ const COMPONENTS = [
 ];
 @NgModule({
   declarations: COMPONENTS,
-  imports: [],
+  // lni-search icon was not there in bb module for filter so had to import MatIconModule
+  imports: [MatIconModule],
   exports: COMPONENTS,
   providers: [],
   bootstrap: [],

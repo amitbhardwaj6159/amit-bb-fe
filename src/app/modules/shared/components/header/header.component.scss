@@ -1,12 +1,19 @@
+@import '../../../../../assets/styles/vars.scss';
 header {
-    background-color: #ffff;
+    background-color: $white;
     padding: 10px 0;
     box-shadow: 0 0 12px 0 rgb(0 0 0 / 5%);
     margin: 0 auto;
 }
 .header-right {
-    float: right;
-    padding-right: 25px;
+    display: none;
+    @media screen and (min-width: 991px){
+        float: right;
+        padding-right: 25px;
+        display: block;
+        
+    }
+    
 }
 .header-left {
     margin-right: 5px;
@@ -16,5 +23,5 @@ header {
     margin-left: 20px;
 }
 .font-blue {
-    color: blue;
+    color: $blue;
 }

@@ -1,24 +1,47 @@
+@import '../../../../../assets/styles/vars.scss';
+.transfer-section {
+    min-height: 400px;
+    background-color: $white;
+    border-radius: 20px;
+    @media(min-width: 991px) {
+        margin-right: 50px;
+    }
+    &__container {
+            padding: 0 15px 15px;
+    }
+}
 
-
-.transaction-list-container {
-    width: 50%;
-    margin-right: auto;
-    margin-left: auto;
-    min-height: 500px;
-    background-color: #ffff;
-    margin-top: 50px;
-    border: 1px solid black;
-    padding-left: 20px;
-}
-.column-1 {
-    display: inline-block;
-    width: 20%;
-    
-}
-.column-2 {
-    display: inline-block;
-    width: 40%;
-}
 .row {
     margin-bottom: 20px;
 }
+.btn-row {
+        text-align: right;
+}
+.currency-icon  {
+    padding: 10px;
+    background: $lightGray1;
+    color: $lightGray2;
+    min-width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+.input-container {
+    display: flex;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+/** apply styles to btn component as not authorized to change in bb module **/
+:host ::ng-deep .btn {
+        min-width: 90px;
+        padding: 5px;
+        border: none;
+        border-radius: 4px;
+        min-height: 35px;
+        cursor: pointer;      
+    }
+    
+:host ::ng-deep .btn-primary {
+        background: $orange;
+        color: $white;
+    }

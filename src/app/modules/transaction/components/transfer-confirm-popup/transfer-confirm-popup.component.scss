@@ -1,0 +1,80 @@
+@import '../../../../../assets/styles/vars.scss';
+.review-transfer {
+    min-height: 400px;
+    min-width: 400px;
+    background-color: $white;
+    color: $black;
+    &__heading {
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        display: flex;
+        align-items: center;
+        padding: 0;
+        text-align: left;
+        border-bottom: 1px solid $lightGray;
+        
+    }
+    &__close-icon {
+        float: right;
+        cursor: pointer;
+        margin-right: 135px;
+        @media screen and (min-width: 991px) {
+            margin-right: 0;
+        }
+    }
+
+    &__text {
+        font-size: 16px;
+        margin-bottom: 17px;
+    }
+
+    &__content {
+        border-bottom: 1px solid $lightGray;
+        padding-bottom: 20px;
+    }
+    &__sub-heading {
+        font-size: 14px;
+        font-style: italic;
+        font-weight: normal;
+    }
+    &__btn-container {
+        margin: 20px 0 ;
+        @media screen and (min-width: 991px) {
+            float: right;
+        }
+        
+    }
+    &__cancel-button {
+        margin-right: 6px;
+    }
+}
+.bold {
+    font-weight: bold;
+}
+.row {
+    margin-bottom: 8px;
+}
+.row-group {
+    margin-bottom: 25px;
+}
+.btn {
+    min-width: 70px;
+    border: none;
+    border-radius: 4px;
+    min-height: 35px;
+    cursor: pointer;   
+}
+.btn-primary {
+    background: $orange;
+    color: $white;
+    padding: 15px;
+}
+.btn-secondary {
+    background: $white;
+    border: 1px solid $black;
+    padding: 13px 0;
+}
+
+.mat-dialog-container {
+    background-color: $white !important;
+}

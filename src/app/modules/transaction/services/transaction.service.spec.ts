@@ -1,8 +1,8 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, fakeAsync } from '@angular/core/testing';
 
 import { TransactionService } from './transaction.service';
 import { HttpClient } from '@angular/common/http';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { ITransactionList } from '../interfaces/transaction.interface';
 import { environment } from '../../../../environments/environment';
 
@@ -61,13 +61,21 @@ describe('TransactionListService', () => {
     service.getTransactionList();
     expect(httpClient.get).toHaveBeenCalledWith(environment.apiUrl.transactionListApi);
   });
+  it('getTransactionList() should call fallback when api fails', () => {
+    const httpClient = TestBed.get(HttpClient);
+    spyOn(httpClient, 'get').and.returnValue(throwError(new Error('error')));
+    service.getTransactionList();
+    expect(httpClient.get).toHaveBeenCalled();
+  });
 
-  it('emitNewTransaction() should set new transaction in observable', () => {
-    service.emitNewTransaction(transactionData.data[0]);
+  it('emitNewTransaction() should set new transaction in observable', fakeAsync(() => {
     service.newTransaction$.subscribe(newTranaction => {
       expect(newTranaction).toEqual(transactionData.data[0]);
     })
-  });
+    service.emitNewTransaction(transactionData.data[0]);
+
+    
+  }));
 
   
 });

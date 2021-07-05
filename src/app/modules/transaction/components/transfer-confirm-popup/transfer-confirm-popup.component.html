@@ -1,14 +1,25 @@
-<div>
-    <h1>Review Transfer</h1>
-    <div>
-        <h2>Are you ready to send out this transfer?</h2>
-        <div>It will be sent to account:</div>
-        <div>{{ transaction?.merchant?.accountNumber}}</div>
-        <div>With the amount of:</div>
-        <div>{{ transaction?.transaction?.amountCurrency?.amount}}</div>
-        <div>
-            <input type="button" (click)="closePopup(false)" value="Cancel"/>
-            <input type="button" (click)="closePopup(true)" value="send Transfer"/>
+<div class="review-transfer">
+    <mat-icon class="review-transfer__close-icon" (click)="closePopup(false)" aria-hidden="false" aria-label="Transaction list icon">close</mat-icon>
+    <h1 class="review-transfer__heading">
+        <span class="review-transfer__text bold">{{ labels?.reviewTransfer }}</span>
+    </h1>
+
+    <div class="review-transfer__content">
+        <h2 class="review-transfer__sub-heading italic">{{ labels?.confirmTransfer }}</h2>
+        <div class="row bold">{{ labels?.sendTo }}</div>
+        <div class="row row-group">{{ transaction?.merchant?.accountNumber}}</div>
+        <div class="row bold">{{ labels?.amountOf }}</div>
+        <div class="row row-group">{{ transaction?.transaction?.amountCurrency?.amount | currency : transaction?.transaction?.amountCurrency?.currencyCode
+            : "symbol"}}
         </div>
+
+    </div>
+    <div class="review-transfer__btn-container">
+        <span class="review-transfer__cancel-button">
+            <input class="btn btn-secondary" type="button" (click)="closePopup(false)" value="{{ labels?.close }}" />
+        </span>
+        <span>
+            <input class="btn btn-primary" type="button" (click)="closePopup(true)" value="{{ labels?.sendTransfer }}" />
+        </span>
     </div>
 </div>

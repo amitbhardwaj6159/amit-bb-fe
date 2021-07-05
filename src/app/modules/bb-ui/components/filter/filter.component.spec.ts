@@ -1,6 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FilterComponent } from './filter.component';
+import { Component } from '@angular/core';
+@Component({
+  selector: 'mat-icon',
+  template: '<div></div>'
+})
+class MockMatIconComponent {}
+
 
 describe('FilterComponent', () => {
   let component: FilterComponent;
@@ -8,7 +15,7 @@ describe('FilterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FilterComponent ]
+      declarations: [ FilterComponent, MockMatIconComponent ]
     })
     .compileComponents();
   });

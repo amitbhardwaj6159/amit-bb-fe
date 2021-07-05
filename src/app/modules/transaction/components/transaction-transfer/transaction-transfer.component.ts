@@ -1,20 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { TransactionConstant } from '../../constants/transaction.constant';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TransferConfirmPopupComponent } from '../transfer-confirm-popup/transfer-confirm-popup.component';
-import {  ITransaction } from '../../interfaces/transaction.interface';
+import {  ITransaction, ILabels } from '../../interfaces/transaction.interface';
 import { TransactionService } from '../../services/transaction.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-transaction-transfer',
   templateUrl: './transaction-transfer.component.html',
   styleUrls: ['./transaction-transfer.component.scss']
 })
-export class TransactionTransferComponent implements OnInit {
+export class TransactionTransferComponent implements OnInit, OnDestroy {
   transferForm: FormGroup;
   myCurrentBalance: number = 5824.76;
-  labels: any = TransactionConstant.labels;
+  labels: ILabels = TransactionConstant.labels;
+  private unsubscribe: Subject<void> = new Subject<void>();
 
   constructor(private formBuilder: FormBuilder, private matDialog: MatDialog,
     private matDailogRef: MatDialogRef<TransferConfirmPopupComponent>,
@@ -29,9 +32,18 @@ export class TransactionTransferComponent implements OnInit {
       'transferFrom': [{ value: '', disabled: true }, Validators.required],
       'transferTo': ['', [Validators.required]],
       'amount': ['', [Validators.required, Validators.pattern(/^([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$/),
-      Validators.min(500), Validators.max(this.myCurrentBalance)]]
-    })
+        this.minimumBalanceValidator.bind(this)]]
+    });
     this.autoFillForm();
+  }
+
+  private minimumBalanceValidator(control: AbstractControl): ValidationErrors | null {
+
+      if (this.myCurrentBalance < -500 || (this.myCurrentBalance - control.value) < -500 ) {
+        return { minimumBalance: true }
+      } else {
+        return null;
+      }
   }
 
   private autoFillForm(): void {
@@ -65,8 +77,10 @@ export class TransactionTransferComponent implements OnInit {
       this.transferForm!!.get('transferTo')!!.markAsTouched();
     }
   }
+
   private confirmSubmission(submitFormData: ITransaction): void {
-    this.matDailogRef.afterClosed().subscribe((isConfirmed: boolean) => {
+    this.matDailogRef.afterClosed().pipe(takeUntil(this.unsubscribe))
+    .subscribe((isConfirmed: boolean) => {
       if (isConfirmed) {
         this.submitTransactionToBackend(submitFormData);
       }
@@ -75,6 +89,7 @@ export class TransactionTransferComponent implements OnInit {
 
   private submitTransactionToBackend(submitFormData: ITransaction): void {
     // TODO: submit transaction to backend and on success update it on UI
+    this.myCurrentBalance -= submitFormData.transaction.amountCurrency.amount;
     this.transactionService.emitNewTransaction(submitFormData);
     // reset form state
     this.transferForm.reset();
@@ -93,16 +108,15 @@ export class TransactionTransferComponent implements OnInit {
       && this.transferForm!!.get(controlName)!!.errors!!.pattern
       && this.transferForm!!.get(controlName)!!.touched;
   }
-  public checkMinimumAmountValidation(controlName: string): boolean | null {
+  public checkMinimumBalanceValidation(controlName: string): boolean | null {
     return this.transferForm!!.get(controlName)!!.errors
-      && this.transferForm!!.get(controlName)!!.errors!!.min
+      && this.transferForm!!.get(controlName)!!.errors!!.minimumBalance
       && this.transferForm!!.get(controlName)!!.touched;
   }
-  
-  public checkMaximumAmountValidation(controlName: string): boolean | null {
-    return this.transferForm!!.get(controlName)!!.errors
-      && this.transferForm!!.get(controlName)!!.errors!!.max
-      && this.transferForm!!.get(controlName)!!.touched;
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
 }

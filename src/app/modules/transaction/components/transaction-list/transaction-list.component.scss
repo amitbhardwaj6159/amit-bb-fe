@@ -1,54 +1,66 @@
 
-
+@import '../../../../../assets/styles/vars.scss';
 .transaction-list {
     min-height: 500px;
-    background-color: #ffff;
-    margin: 50px 0;
-    border-radius: 20px;
-    overflow: hidden;
-   
-    &__content {
-        padding-left: 20px;
-        margin-top: 60px;
-        
-    }
+    background-color: $white;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+ 
+&__content {
+    padding: 0 15px 15px;
+    overflow-y: auto;
+    max-height: 600px;
+  }
 
-    &__content-filter {
-        margin-left:15px;
+&__content-filter {
         margin-bottom: 20px;
-    }
-    
-    &__heading {
-        margin-top: 0;
-        background-color: #00bfff;
-        color: white;
-        padding: 15px 0;
-        
-    }
-    &__heading-icon {
-        padding: 0 15px;
-        font-size: 25px;
-        vertical-align: middle;
-        // position: absolute;
-        // right: 0;
-        // top: 0;
-    }
-    &__heading-text {
+        width: 50%;
+}
+&__heading-text {
         font-size: 16px;
+}
+
+&__content-trans-color {
+        width: 6px;
+        min-height: 60px;
     }
-    &__content-trans-color {
-        width: 4px;
-        height: 40px;
-    }
+}
+// table overrides
+.mat-table {
+      background: $white;
+ }
+ .list-row {
+     height: 90px !important;
+ }
+
+td.mat-cell {
+      color: $black;
+      padding: 10px 5px;
+      border-bottom: 1px solid $lightGray;
+}
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type {
+      padding: 0;
 }
 
 table {
     width: 100%;
+    -moz-box-shadow: none;
+    -goog-ms-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+  tr .mat-row {
+      margin-bottom: 15px;
   }
 
-.bold {
-      font-weight: bold
- }
+  .no-record-found {
+      text-align: center;
+      height: 50px;
+      padding: 25px;
+
+  }
   
 .mat-cell .mat-header {
     width: 40%;
@@ -56,3 +68,32 @@ table {
 :host ::ng-deep mat-icon .mat-icon .material-icons .mat-icon-no-color {
     font-size: 30px;
   }
+
+  /* override bb library child components style */
+:host ::ng-deep .filter-input {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+:host ::ng-deep .filter-icon  {
+      padding: 10px;
+      background: $lightGray1;
+      color: $lightGray2;
+      min-width: 40px;
+      height: 40px;
+    }
+    
+:host ::ng-deep .input-container {
+      display: flex;
+      width: 100%;
+      margin-bottom: 15px;
+      input {
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid $lightGray2;
+        min-width: 120px;
+        min-height: 40px;
+        width: 100%;
+        font-style: italic;
+
+      }
+}

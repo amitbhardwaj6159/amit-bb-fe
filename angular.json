@@ -105,9 +105,21 @@
             ],
             "scripts": []
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
   },
-  "defaultProject": "backbase-fe"
+  "defaultProject": "backbase-fe",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }

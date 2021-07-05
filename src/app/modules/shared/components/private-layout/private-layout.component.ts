@@ -5,11 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './private-layout.component.html',
   styleUrls: ['./private-layout.component.scss']
 })
-export class PrivateLayoutComponent implements OnInit {
+export class PrivateLayoutComponent {
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
-
 }

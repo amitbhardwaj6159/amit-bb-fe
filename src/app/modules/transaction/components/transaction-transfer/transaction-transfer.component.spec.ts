@@ -17,6 +17,12 @@ import { TransferConfirmPopupComponent } from '../transfer-confirm-popup/transfe
 })
 class MockSubmitButtonComponent { }
 
+@Component({
+  selector: 'mat-icon',
+  template: '<div></div>'
+})
+class MockMatIconComponent {}
+
 
 // service mock
 @Injectable()
@@ -47,7 +53,7 @@ describe('TransactionTransferComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, MatDialogModule],
-      declarations: [TransactionTransferComponent, MockSubmitButtonComponent],
+      declarations: [TransactionTransferComponent, MockSubmitButtonComponent, MockMatIconComponent],
       providers: [
         {
           provide: MatDialog,
@@ -196,24 +202,19 @@ describe('TransactionTransferComponent', () => {
     expect(component.checkRequiredFieldValidation('amount')).toEqual(null);
 
   });
-  it('amount field should fulfill minimum amount  validation', () => {
-    component.transferForm.controls.amount.setValue(200);
+  it('amount field should not allow when balance is less than -500', () => {
+    component.transferForm.controls.amount.setValue(7000);
     component.transferForm.controls.amount.markAsTouched();
-    expect(component.checkMinimumAmountValidation('amount')).toEqual(true);
-    component.transferForm.controls.amount.setValue(501);
-    component.transferForm.controls.amount.markAsTouched();
-    expect(component.checkMinimumAmountValidation('amount')).toEqual(null);
+    expect(component.checkMinimumBalanceValidation('amount')).toEqual(true);
 
   });
-  it('amount field should fulfill maximum amount validation', () => {
-    component.transferForm.controls.amount.setValue(6000);
+  it('amount field should  allow when balance is greater than -500', () => {
+    component.transferForm.controls.amount.setValue(4000);
     component.transferForm.controls.amount.markAsTouched();
-    expect(component.checkMaximumAmountValidation('amount')).toEqual(true);
-    component.transferForm.controls.amount.setValue(600);
-    component.transferForm.controls.amount.markAsTouched();
-    expect(component.checkMaximumAmountValidation('amount')).toEqual(null);
+    expect(component.checkMinimumBalanceValidation('amount')).toEqual(null);
 
   });
+ 
   it('amount field should allow only positive number and number with decimal ', () => {
     component.transferForm.controls.amount.setValue('abcd');
     component.transferForm.controls.amount.markAsTouched();

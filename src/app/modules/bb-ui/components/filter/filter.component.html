@@ -2,10 +2,13 @@
   <div class="form-group">
     <div class=" input-group">
       <div class="input-group-prepend">
-        <div class="input-group-text"><i class="lni lni-search"></i></div>
+        <div class="input-container">
+          <mat-icon class="filter-icon">search</mat-icon>
+
+          <input (keyup)="onInputChange($event)" type="text" class="form-control" id="transactions" aria-describedby="filterTransactions"
+            placeholder="filter transactions" data-test-hook="filterInput">
+        </div>
       </div>
-      <input (keyup)="onInputChange($event)" type="text" class="form-control" id="transactions"
-        aria-describedby="filterTransactions" placeholder="filter transactions" data-test-hook="filterInput">
     </div>
   </div>
 </form>

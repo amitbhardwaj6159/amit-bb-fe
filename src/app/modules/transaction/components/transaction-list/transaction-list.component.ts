@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { TransactionService } from '../../services/transaction.service';
 import { take, takeUntil } from 'rxjs/operators';
-import { ITransaction, ITransactionList } from '../../interfaces/transaction.interface';
+import { ITransaction, ITransactionList, ILabels } from '../../interfaces/transaction.interface';
 import { MatTable } from '@angular/material/table';
 import { Subject } from 'rxjs';
+import { TransactionConstant } from '../../constants/transaction.constant';
 
 @Component({
   selector: 'app-transaction-list',
@@ -18,6 +19,7 @@ export class TransactionListComponent implements OnInit, OnDestroy {
   @ViewChild(MatTable) transactionTable!: MatTable<any>;
   private filteredText: string = '';
   private unsubscribe: Subject<void> = new Subject<void>();
+  public labels: ILabels = TransactionConstant.labels;
 
   constructor(private transactionService: TransactionService) { }
 
@@ -33,7 +35,7 @@ export class TransactionListComponent implements OnInit, OnDestroy {
     .subscribe((res: ITransactionList) => {
       this.transactionList = res.data;
       this.originalTransactionList = JSON.parse(JSON.stringify(res.data));
-      this.transactionList.sort((transaction1: any, transaction2: any) => {
+      this.transactionList.sort((transaction1: ITransaction, transaction2: ITransaction) => {
         return transaction2.dates.valueDate - transaction1.dates.valueDate;
       });
     })
@@ -45,14 +47,16 @@ export class TransactionListComponent implements OnInit, OnDestroy {
     .subscribe((newTransaction: ITransaction) => {
       if (newTransaction) {
         // check if filter is already applied
-        if (this.filteredText && newTransaction.merchant.name.includes(this.filteredText)) {
+        this.filteredText = this.filteredText ? this.filteredText.toLowerCase() : '';
+        const newTransactionMerchantName = newTransaction.merchant.name ? newTransaction.merchant.name.toLowerCase(): '';
+        if (this.filteredText && newTransactionMerchantName.includes(this.filteredText)) {
             this.transactionList.unshift(newTransaction);
         } else if (!this.filteredText){
           this.transactionList.unshift(newTransaction);
         }
         this.originalTransactionList.unshift(newTransaction);
         // to apply changes to the mat table
-        this.transactionTable.renderRows();
+        // this.transactionTable.renderRows();
       }
     })
   }
@@ -62,7 +66,7 @@ export class TransactionListComponent implements OnInit, OnDestroy {
     if (target && target.value) {
       this.filteredText = target.value;
       const filterText = target.value.toLowerCase();
-      this.transactionList = this.transactionList.filter((transactionItem: any) => {
+      this.transactionList = this.transactionList.filter((transactionItem: ITransaction) => {
         return transactionItem.merchant.name.toLowerCase().includes(filterText);
       })
     } else {

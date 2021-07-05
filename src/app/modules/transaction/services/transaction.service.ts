@@ -21,6 +21,7 @@ export class TransactionService {
     .pipe(
       map((res: any)=> res),
       catchError(error => {
+        // fallback for api failure
         return this.httpClient.get(environment.apiUrl.transactionListMockApi);
       })
     ) as Observable<ITransactionList>;

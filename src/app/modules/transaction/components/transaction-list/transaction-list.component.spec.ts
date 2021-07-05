@@ -1,14 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { TransactionListComponent } from './transaction-list.component';
 import { Component, Injectable } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
-import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { TransactionService } from '../../services/transaction.service';
 import { ITransactionList, ITransaction } from '../../interfaces/transaction.interface';
-import { of, Observable, Subject } from 'rxjs';
+import { of, Observable, Subject, BehaviorSubject } from 'rxjs';
 const transactionList: ITransactionList = {
   data: [
     {
@@ -52,6 +50,13 @@ const transactionList: ITransactionList = {
 };
 
 @Component({
+  selector: 'mat-icon',
+  template: '<div></div>',
+})
+export class MockIconComponent {
+}
+
+@Component({
   selector: 'app-filter',
   template: '<div></div>',
 })
@@ -71,11 +76,7 @@ class MockTransactionService {
   }
   private newTransaction: Subject<ITransaction> = new Subject<ITransaction>();
   public newTransaction$ = this.newTransaction.asObservable(); 
-  public emitNewTransaction(newTransaction: ITransaction): void {
-    this.newTransaction.next(newTransaction);
 }
-}
-
 
 describe('TransactionListComponent', () => {
   let component: TransactionListComponent;
@@ -83,8 +84,9 @@ describe('TransactionListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatTableModule, MatIconModule, MatInputModule, MatDialogModule],
-      declarations: [ TransactionListComponent, MockFilterComponent, MockTransactionItemComponent ],
+      imports: [MatTableModule, MatInputModule, MatDialogModule],
+      declarations: [ TransactionListComponent, MockFilterComponent,
+        MockTransactionItemComponent, MockIconComponent ],
       providers: [
         {
           provide: TransactionService,
@@ -99,6 +101,7 @@ describe('TransactionListComponent', () => {
     fixture = TestBed.createComponent(TransactionListComponent);
     component = fixture.componentInstance;
     component.transactionList = transactionList.data;
+    component.originalTransactionList = transactionList.data;
     fixture.detectChanges();
   });
 
@@ -118,69 +121,22 @@ describe('TransactionListComponent', () => {
     };
     component.filterTransactionList(event);
     expect(component.transactionList.length).toEqual(1);
+
   });
+
   it('filterTransactionList should show the all transaction when no filter is applied', () => {
     const event: any = {
       target: {
        value: ''
       }
     };
+    
+    component.transactionList = transactionList.data;
+    component.originalTransactionList = transactionList.data;
     component.filterTransactionList(event);
     expect(component.transactionList.length).toEqual(2);
+
   });
 
-  it('newTransaction$ observable should add new transaction to list when no filter is applied', () => {
-    const transactionService: TransactionService = TestBed.get(TransactionService);
-    const newTransaction = {
-      categoryCode: "#12a580",
-      dates: {
-        valueDate: 1600493600000
-      },
-      transaction: {
-        amountCurrency: {
-          amount: 5000,
-          currencyCode: 'EUR'
-        },
-        type: 'Salaries',
-        creditDebitIndicator: 'CRDT'
-      },
-      merchant: {
-        name: 'New Marchant',
-        accountNumber: 'SI64397745065188826'
-      }
-    };
-    // transactionService.emitNewTransaction(newTransaction)
-    expect(component.transactionList.length).toEqual(3);
-  });
-
-  // it('newTransaction$ observable should add new transaction to list when filter is applied', () => {
-  //   const transactionService: TransactionService = TestBed.get(TransactionService);
-  //   const newTransaction = {
-  //     categoryCode: "#12a580",
-  //     dates: {
-  //       valueDate: 1600493600000
-  //     },
-  //     transaction: {
-  //       amountCurrency: {
-  //         amount: 5000,
-  //         currencyCode: 'EUR'
-  //       },
-  //       type: 'Salaries',
-  //       creditDebitIndicator: 'CRDT'
-  //     },
-  //     merchant: {
-  //       name: 'New Marchant',
-  //       accountNumber: 'SI64397745065188826'
-  //     }
-  //   };
-  //   const event: any = {
-  //     target: {
-  //      value: 'New'
-  //     }
-  //   };
-  //   component.filterTransactionList(event);
-  //   transactionService.emitNewTransaction(newTransaction)
-  //   expect(component.transactionList.length).toEqual(1);
-  // });
 
 });

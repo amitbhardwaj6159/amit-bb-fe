@@ -1,24 +1,47 @@
+
+@import '../../../../../assets/styles/vars.scss';
 .container {
-    // max-width: 1280px;
     min-height: 480px;
     margin: 0 auto;
     clear: both;
 }
-
-
 .bg-image {
     background-image: url('../../../../../assets/images/background.jpg');
-    background-color: #cccccc; /* Used if the image is unavailable */
-    height: 800px; /* You must set a specified height */
-    background-position: center; /* Center the image */
-    background-repeat: no-repeat; /* Do not repeat the image */
-    background-size: cover; /* Resize the background image to cover the entire container */
-    // opacity: 0.5;
+    background-color: $lightGray;
+    height: 1200px; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: cover; 
+    -webkit-filter: blur(2px);
+    -moz-filter: blur(2px);
+    -o-filter: blur(2px);
+    -ms-filter: blur(2px);
+    filter: blur(2px);
+    @media screen and (min-width: 991px) {
+        height: 800px; 
+    }
     
 
+  }
+  .content-container {
+      position: absolute;
+      margin: 0 auto;
+      clear: both;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      width: 100%;
+      padding: 20px;
+      @media screen and (min-width: 991px) {
+          width: 70%;
+      }
   }
 
 :host ::ng-deep app-footer footer {
     box-shadow: 0 0 12px 0 rgb(0 0 0 / 5%);
+    p {
+        padding-top: 8px;
+    }
   
   }
