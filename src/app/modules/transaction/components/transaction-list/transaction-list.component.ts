@@ -56,7 +56,7 @@ export class TransactionListComponent implements OnInit, OnDestroy {
         }
         this.originalTransactionList.unshift(newTransaction);
         // to apply changes to the mat table
-        // this.transactionTable.renderRows();
+        this.transactionTable.renderRows();
       }
     })
   }
